@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from src.model import PhishingEmailDetector
 
 LABEL_MAP = {0: "✅  SAFE", 1: "🚨  PHISHING"}
-COLOR_MAP  = {0: "\033[92m", 1: "\033[91m"}  # green / red
+COLOR_MAP  = {0: "\033[92m", 1: "\033[91m"}
 RESET      = "\033[0m"
 
 
@@ -67,7 +67,6 @@ def run_interactive(model):
 def run_file(model, path):
     with open(path, "r", encoding="utf-8") as f:
         content = f.read()
-    # Split on blank lines as email separator
     emails = [e.strip() for e in content.split("\n\n") if e.strip()]
     print(f"\n[*] Predicting {len(emails)} email(s) from {path}\n")
     for i, email in enumerate(emails, 1):
@@ -81,30 +80,24 @@ def run_file(model, path):
 def parse_args():
     parser = argparse.ArgumentParser(description="Phishing Email Predictor")
     parser.add_argument("--model",       type=str, default="models/phishing_detector.pkl")
-    parser.add_argument("--email",       type=str, default=None, help="Single email string")
-    parser.add_argument("--file",        type=str, default=None, help="Text file with emails (blank-line separated)")
+    parser.add_argument("--email",       type=str, default=None)
+    parser.add_argument("--file",        type=str, default=None)
     parser.add_argument("--interactive", action="store_true")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-
     if not os.path.exists(args.model):
         print(f"[!] Model not found at '{args.model}'. Run train.py first.")
         sys.exit(1)
-
     model = PhishingEmailDetector.load(args.model)
-
     if args.email:
         label, proba = predict_single(model, args.email)
         print(format_result(args.email, label, proba))
-
     elif args.file:
         run_file(model, args.file)
-
     elif args.interactive:
         run_interactive(model)
-
     else:
         print("[!] Provide --email, --file, or --interactive. Use --help for usage.")
