@@ -1,47 +1,25 @@
-# Python
 __pycache__/
 *.py[cod]
-*$py.class
 *.pyo
-*.pyd
 .Python
-
-# Virtual environments
 venv/
 env/
 ENV/
 .venv/
-
-# Jupyter Notebooks
 .ipynb_checkpoints/
 *.ipynb
-
-# Trained model files (large)
 models/*.pkl
-
-# Generated data
 data/emails_dataset.csv
-
-# Plots (generated at runtime)
 models/*.png
 *.png
-
-# Distribution / packaging
 dist/
 build/
 *.egg-info/
-
-# IDE
 .vscode/
 .idea/
 *.swp
-*.swo
-
-# OS
 .DS_Store
 Thumbs.db
-
-# pytest
 .pytest_cache/
 .coverage
 htmlcov/
